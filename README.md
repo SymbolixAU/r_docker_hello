@@ -4,7 +4,7 @@
 
 This in an example R project setup for deployment on a docker container, running and connecting a docker container that runs R. 
 
-To play along at home, follow the blog post at https://www.symbolix.com.au/blog/r_docker_hello.  It will
+To play along at home, follow the blog post at https://www.symbolix.com.au/blog-main/r-docker-hello.  It will
 
 * Set up a dockerfile 
 * Set up a composer file
