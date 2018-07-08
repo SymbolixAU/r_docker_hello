@@ -7,16 +7,16 @@ FROM rocker/rstudio
 ## install.packages("<myfavouritepacakge>") or
 ## devtools::install("SymbolixAU/googleway")
 
+## Copy requirements.R to container directory /tmp
 COPY ./DockerConfig/requirements.R /tmp/requirements.R 
+## install required libs on container
 RUN Rscript /tmp/requirements.R
-
-## uncomment to include shiny server
-# #RUN export ADD=shiny && bash /etc/cont-init.d/add
 
 # create an R user
 ENV USER rstudio
 
 ## Copy your working files over
+## The $USER defaults to `rstudio` but you can change this at runtime
 COPY ./Analysis /home/$USER/Analysis
 COPY ./Data /home/$USER/Data
 
