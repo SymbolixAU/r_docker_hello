@@ -1,32 +1,9 @@
 ---
-title: "R Docker exercise 1"
+title: "R Docker exercises for useR!2018"
 author: Symbolix (www.symbolix.com.au)
 output: html_document
 ---
-## Inside the Dockerfile
-
-    # Base image https://hub.docker.com/u/rocker/
-    FROM rocker/rstudio
-    
-    ## Install extra R packages using requirements.R
-    ## Specify requirements as R install commands e.g.
-    ## 
-    ## install.packages("<myfavouritepacakge>") or
-    ## devtools::install("SymbolixAU/googleway")
-    
-    ## Copy requirements.R to container directory /tmp
-    COPY ./DockerConfig/requirements.R /tmp/requirements.R 
-    ## install required libs on container
-    RUN Rscript /tmp/requirements.R
-    
-    # create an R user
-    ENV USER rstudio
-    
-    ## Copy your working files over
-    ## The $USER defaults to `rstudio` but you can change this at runtime
-    COPY ./Analysis /home/$USER/Analysis
-    COPY ./Data /home/$USER/Data
-
+## Inside the Repository
 
 Dockerfiles are used to build up an image. We start **FROM** a base image. Then we **COPY** files or **RUN** extra commands or set specific **ENV** variables. The Dockerfile lives in the top of the project and should be called **Dockerfile** with a capital **D**.
 
@@ -50,7 +27,7 @@ to see your image added to the list. We've called it `rstudio/hello-world` but y
 
 ## Run it
 
-We want to use this image to access rstudio so we want it running as a background service (i.e. in detacted mode) we use the flag `-d` to do this. If you want to access a bash shell or other interactive mode, you need to specify `-it`.
+We want to use this image to access rstudio so we want it running as a background service (i.e. in detached mode) we use the flag `-d` to do this. If you want to access a bash shell or other interactive mode, you need to specify `-it`.
 
 Rstudio runs on port 8787 within the container. We need to map this to an unused port on the host machine with a `-p <host port>:<container port>` We will use 28787, but this can be any used port.
 
@@ -91,6 +68,30 @@ One more thing. In the rstudio window, open up `Analysis/hello.world.R` add a li
 
 Final question - if I check the contents of `Analysis/hello.world.R` on the command line (i.e. back on the host) will it have your new line? Why?
 
-### One last challenge:
+## Have a play
 
-(Stop the old container first). Now run it again, but set it up so you can make changes into hello.world.R on the command line and immediately have them show up and work in Rstudio.
+* Pass environment variables (-e) to 
+    + give you permissions to save changes to `hello-world.R`
+    + change `username` and `password` to something more secure
+    
+* Save your data
+    + Save the output data back to your laptop by mounting directory (-V)
+
+* Set yourself up so you can make changes in hello.world.R on your local directory and immediately have them show up and work in the container Rstudio.  When might this be useful?
+
+Other things to try:
+
+* Can you set the `username` and `password` in the Dockerfile instead of the run command?
+* `docker stop` your container and use `docker ps` to confirm it's gone.
+* Run two versions of the container at the same time.  What runtime settings need to change?
+* Change the `requirements.R` (add/remove a library) and rebuild.  Does it rebuild all the layers? Why?
+
+## Open docker play/questions time:
+
+Feel free to:
+
+* Continue tinkering with our R-docker repo and questions above
+
+* Extend our example to set up a container suited to their particular interests/favourite libraries (choose good rocker image, add requirements, build....)
+
+* Extend our example into a set up to produce three related datasets at the same time, with different inputs.  How will you set up your output folders? How will you configure the required differences (e.g. R environment variable, log into each one separately??)
