@@ -322,7 +322,7 @@ $(document).ready(function () {
 <div id="build-it" class="section level2">
 <h2>Build it</h2>
 <p>Type the following command into the command line. You must be in the same directory as your Dockerfile.</p>
-<pre><code>sudo docker build --rm --force-rm -t rstudio/hello-world .</code></pre>
+<pre><code>sudo docker build --rm --force-rm -t -e PASSWORD=SoSecret! rstudio/hello-world .</code></pre>
 <p>the <code>--rm --force-rm</code> just forces the container to delete itself once its scripts run or you log out. It just stops us filling up the server with lots of containers doing nothing. Once this has built run</p>
 <pre><code>sudo docker image list</code></pre>
 <p>to see your image added to the list. We’ve called it <code>rstudio/hello-world</code> but you can call it anything.</p>
@@ -332,7 +332,7 @@ $(document).ready(function () {
 <p>We want to use this image to access rstudio so we want it running as a background service (i.e. in detached mode) we use the flag <code>-d</code> to do this. If you want to access a bash shell or other interactive mode, you need to specify <code>-it</code>.</p>
 <p>Rstudio runs on port 8787 within the container. We need to map this to an unused port on the host machine with a <code>-p &lt;host port&gt;:&lt;container port&gt;</code> We will use 28787, but this can be any used port.</p>
 <p>We will call our container <code>hello-world</code>. This is the simple run command:</p>
-<pre><code>sudo docker run -d --rm -p 28787:8787 --name hello-world rstudio/hello-world</code></pre>
+<pre><code>sudo docker run -d --rm -p 28787:8787 -e PASSWORD=SoSecret! --name hello-world rstudio/hello-world</code></pre>
 <p>Run this command and access the container through your webbrowser at <code>&lt;yourhostip:28787&gt;</code>. Username and password are both <code>rstudio</code>.</p>
 <p>In rstudio, type</p>
 <pre><code>source(&quot;Analysis/hello.world.R&quot;)</code></pre>

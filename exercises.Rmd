@@ -17,7 +17,7 @@ Finally the build copies our files over - the `Analysis` folder and the `Data` f
 
 Type the following command into the command line. You must be in the same directory as your Dockerfile.
 
-    sudo docker build --rm --force-rm -t rstudio/hello-world .
+    sudo docker build --rm --force-rm -t -e PASSWORD=SoSecret! rstudio/hello-world .
 
 the `--rm --force-rm` just forces the container to delete itself once its scripts run or you log out. It just stops us filling up the server with lots of containers doing nothing. Once this has built run
 
@@ -33,7 +33,7 @@ Rstudio runs on port 8787 within the container. We need to map this to an unused
 
 We will call our container `hello-world`. This is the simple run command:
 
-    sudo docker run -d --rm -p 28787:8787 --name hello-world rstudio/hello-world
+    sudo docker run -d --rm -p 28787:8787 -e PASSWORD=SoSecret! --name hello-world rstudio/hello-world
 
 Run this command and access the container through your webbrowser at `<yourhostip:28787>`. Username and password are both `rstudio`. 
 
